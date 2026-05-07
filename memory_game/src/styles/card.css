@@ -1,5 +1,5 @@
 .card {
-  border: 1px white solid;
+  border: 2px white solid;
   border-radius: 5px;
   width: 25px;
   height: auto;
@@ -11,12 +11,11 @@
 
 .card:hover {
   background-color: rgb(59, 66, 67);
-  border: 1px solid white;
   cursor: pointer;
 }
 
 .disabled {
-  border: 1px white solid;
+  border: 2px white solid;
   border-radius: 5px;
   width: 25px;
   height: auto;

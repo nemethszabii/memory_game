@@ -1,62 +1,39 @@
 import { useState } from "react";
 import "./App.css";
-import Card from "./components/Card";
+import Matrix from "./components/Matrix";
 
 function App() {
+  const [endRound, setEndRound] = useState(false);
+  const [match, setMatch] = useState(false);
   const [flipCounter, setFlipCounter] = useState(0);
-  const symbols = ["✏️", "⚙️", "🤖", "🔍", "🎮", "⌛", "🎨", "🍔", "🛹", "🍩"];
 
-  const createMatrix = () => {
-    let matrix = [
-      ["0", "0", "0", "0", "0"],
-      ["0", "0", "0", "0", "0"],
-      ["0", "0", "0", "0", "0"],
-      ["0", "0", "0", "0", "0"],
-    ];
-
-    for (let i = 0; i < matrix.length; i++) {
-      for (let j = 0; j < matrix[i].length; j++) {
-        let counter = 0;
-        while (counter < symbols.length) {
-          //matrix[(i, j)] = Math.floor(Math.random() * symbols.length);
-          counter++;
-        }
-      }
-    }
-    doesContainTwice(matrix);
-    return matrix;
-  };
-
-  const doesContainTwice = (matrix, symbol) => {
-    let counter = 0;
-    let i = 0;
-    let j = 0;
-    while (i < matrix.length) {
-      while (j < matrix[i].length) {
-        if (matrix[(i, j)] == symbol) {
-          counter++;
-        }
-      }
-    }
-    return counter == 2;
+  const handleUserClick = () => {
+    setFlipCounter(0);
+    setMatch(false);
+    setEndRound(true);
   };
 
   return (
     <div className="app-container">
       <h1>Memory Game</h1>
-      <div className="game-container">
-        {symbols.map((symbol, index) => (
-          <Card
-            key={index}
-            content={symbol}
-            flipCounter={flipCounter}
-            setFlipCounter={setFlipCounter}
-          />
-        ))}
-      </div>
-      <button className="create-btn" onClick={createMatrix}>
-        Create Matrix
-      </button>
+      <Matrix
+        setMatch={setMatch}
+        flipCounter={flipCounter}
+        setFlipCounter={setFlipCounter}
+        endRound={endRound}
+      />
+      {flipCounter == 2 && (
+        <div className="msg-container">
+          {match ? (
+            <span>It is a match!</span>
+          ) : (
+            <span>It is not a match!</span>
+          )}
+          <button onClick={handleUserClick} className="btn-user">
+            OK
+          </button>
+        </div>
+      )}
     </div>
   );
 }
