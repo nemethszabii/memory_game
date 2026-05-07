@@ -7,6 +7,7 @@
   padding: 7px;
   background-color: black;
   margin: 5px;
+  color: white;
 }
 
 .card:hover {
@@ -14,14 +15,6 @@
   cursor: pointer;
 }
 
-.disabled {
-  border: 2px white solid;
-  border-radius: 5px;
-  width: 25px;
-  height: auto;
-  min-height: 25px;
-  padding: 7px;
-  background-color: black;
-  margin: 5px;
+.flipped {
   cursor: not-allowed;
 }

@@ -1,13 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Card from "./Card";
 import "../styles/matrix.css";
 
-const Matrix = ({ setMatch, flipCounter, setFlipCounter, endRound }) => {
+const Matrix = ({
+  setFlipCounter,
+  flippedCards,
+  setFlippedCards,
+  setFlippedContent,
+}) => {
   const symbols = ["✏️", "⚙️", "🤖", "🔍", "🎮", "⌛", "🎨", "🍔", "🛹", "🍩"];
-  const [pickedSymbols, setPickedSymbols] = useState({
-    first: "",
-    second: "",
-  });
+
+  const handleCardClick = (index, symbol) => {
+    if (flippedCards.length < 2 && !flippedCards.includes(index)) {
+      setFlippedCards((prev) => [...prev, index]);
+      setFlippedContent((prev) => [...prev, symbol]);
+      setFlipCounter((prev) => prev + 1);
+    }
+    console.log(flippedCards);
+  };
 
   function shuffle(array) {
     let currentIndex = array.length;
@@ -51,20 +61,6 @@ const Matrix = ({ setMatch, flipCounter, setFlipCounter, endRound }) => {
 
   const [matrix, setMatrix] = useState(() => createMatrix());
 
-  useEffect(() => {
-    const checkIfMatch = () => {
-      if (pickedSymbols.first == pickedSymbols.second) {
-        setMatch(true);
-      } else {
-        setMatch(false);
-      }
-    };
-
-    if (flipCounter == 2) {
-      checkIfMatch();
-    }
-  }, [flipCounter, pickedSymbols, setMatch]);
-
   return (
     <>
       <div className="matrix-container">
@@ -72,10 +68,8 @@ const Matrix = ({ setMatch, flipCounter, setFlipCounter, endRound }) => {
           <Card
             key={index}
             content={symbol}
-            flipCounter={flipCounter}
-            setFlipCounter={setFlipCounter}
-            setPickedSymbols={setPickedSymbols}
-            endRound={endRound}
+            isFlipped={flippedCards.includes(index)}
+            onClick={() => handleCardClick(index, symbol)}
           />
         ))}
       </div>
