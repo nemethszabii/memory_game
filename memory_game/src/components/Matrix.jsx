@@ -1,14 +1,32 @@
-import { useState } from "react";
+import { useMemo } from "react";
 import Card from "./Card";
 import "../styles/matrix.css";
 
 const Matrix = ({
+  flipCounter,
   setFlipCounter,
   flippedCards,
   setFlippedCards,
   setFlippedContent,
+  symbolsToLeaveOut,
 }) => {
-  const symbols = ["✏️", "⚙️", "🤖", "🔍", "🎮", "⌛", "🎨", "🍔", "🛹", "🍩"];
+  const matrix = useMemo(() => {
+    const symbols = [
+      "✏️",
+      "⚙️",
+      "🤖",
+      "🔍",
+      "🎮",
+      "⌛",
+      "🎨",
+      "🍔",
+      "🛹",
+      "🍩",
+    ];
+    const doubled = [...symbols, ...symbols];
+    shuffle(doubled);
+    return doubled;
+  }, []);
 
   const handleCardClick = (index, symbol) => {
     if (flippedCards.length < 2 && !flippedCards.includes(index)) {
@@ -16,7 +34,6 @@ const Matrix = ({
       setFlippedContent((prev) => [...prev, symbol]);
       setFlipCounter((prev) => prev + 1);
     }
-    console.log(flippedCards);
   };
 
   function shuffle(array) {
@@ -36,42 +53,24 @@ const Matrix = ({
     }
   }
 
-  function createMatrix() {
-    let doubled = doubleArray(symbols);
-    shuffle(doubled);
-    return doubled;
-  }
-
-  function doubleArray(array) {
-    let newArray = [array.length * 2];
-    let counter = 0;
-    for (let i = 0; i < array.length; i++) {
-      newArray[i] = array[i];
-      counter++;
-    }
-
-    let j = 0;
-    while (j < array.length) {
-      newArray[counter] = array[j];
-      counter++;
-      j++;
-    }
-    return newArray;
-  }
-
-  const [matrix, setMatrix] = useState(() => createMatrix());
-
   return (
     <>
       <div className="matrix-container">
-        {matrix.map((symbol, index) => (
-          <Card
-            key={index}
-            content={symbol}
-            isFlipped={flippedCards.includes(index)}
-            onClick={() => handleCardClick(index, symbol)}
-          />
-        ))}
+        {matrix.map((symbol, index) => {
+          if (symbolsToLeaveOut.includes(symbol)) {
+            return <div key={index} className="hidden-card"></div>;
+          }
+
+          return (
+            <Card
+              flipCounter={flipCounter}
+              key={index}
+              content={symbol}
+              isFlipped={flippedCards.includes(index)}
+              onClick={() => handleCardClick(index, symbol)}
+            />
+          );
+        })}
       </div>
     </>
   );

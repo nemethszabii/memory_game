@@ -1,8 +1,11 @@
 import "../styles/card.css";
 
-const Card = ({ content, isFlipped, onClick }) => {
+const Card = ({ content, isFlipped, onClick, flipCounter }) => {
   return (
-    <div onClick={onClick} className={`card ${!isFlipped ? "flipped" : ""}`}>
+    <div
+      onClick={onClick}
+      className={isFlipped || flipCounter == 2 ? "flipped" : "card"}
+    >
       {isFlipped ? content : "?"}
     </div>
   );

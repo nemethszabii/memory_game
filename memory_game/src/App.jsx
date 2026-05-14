@@ -1,44 +1,42 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Matrix from "./components/Matrix";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
-  const [isMatch, setIsMatch] = useState(false);
   const [flipCounter, setFlipCounter] = useState(0);
   const [flippedCards, setFlippedCards] = useState([]);
   const [flippedContent, setFlippedContent] = useState([]);
+  const [symbolsToLeaveOut, setSymbolsToLeaveOut] = useState([]);
 
   const handleReset = () => {
+    const [first, second] = flippedContent;
+    if (flippedContent.length === 2 && first === second) {
+      setSymbolsToLeaveOut((prev) => [...prev, first]);
+    }
     setFlipCounter(0);
-    setIsMatch(false);
     setFlippedCards([]);
     setFlippedContent([]);
   };
 
-  useEffect(() => {
-    if (flipCounter == 2) {
-      console.log(flippedContent);
-      setIsMatch(flippedContent[0] == flippedContent[1]);
-    }
-  }, [flipCounter, flippedContent, setIsMatch]);
-
   return (
     <div className="app-container">
+      <Toaster />
       <h1>Memory Game</h1>
       <Matrix
-        setIsMatch={isMatch}
         flipCounter={flipCounter}
         setFlipCounter={setFlipCounter}
         flippedCards={flippedCards}
         setFlippedCards={setFlippedCards}
         setFlippedContent={setFlippedContent}
+        symbolsToLeaveOut={symbolsToLeaveOut}
       />
       {flipCounter == 2 && (
         <div className="msg-container">
-          {isMatch ? (
+          {flippedContent[0] == flippedContent[1] ? (
             <span>It is a match!</span>
           ) : (
-            <span>It is not a match!</span>
+            <span>This didn't work!</span>
           )}
           <button onClick={handleReset} className="btn-user">
             OK
