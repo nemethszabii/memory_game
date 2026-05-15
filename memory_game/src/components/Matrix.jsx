@@ -1,10 +1,8 @@
 import { useMemo } from "react";
 import Card from "./Card";
-import "../styles/matrix.css";
 
 const Matrix = ({
-  flipCounter,
-  setFlipCounter,
+  isRunning,
   flippedCards,
   setFlippedCards,
   setFlippedContent,
@@ -32,7 +30,6 @@ const Matrix = ({
     if (flippedCards.length < 2 && !flippedCards.includes(index)) {
       setFlippedCards((prev) => [...prev, index]);
       setFlippedContent((prev) => [...prev, symbol]);
-      setFlipCounter((prev) => prev + 1);
     }
   };
 
@@ -55,14 +52,21 @@ const Matrix = ({
 
   return (
     <>
-      <div className="matrix-container">
+      <div
+        className={`bg-slate-900 h-auto w-3xs grid grid-cols-5 gap-3 border-2 border-solid rounded-md shadow-2xl m-3 p-2 ${!isRunning ? "pointer-events-none" : ""}`}
+      >
         {matrix.map((symbol, index) => {
           if (symbolsToLeaveOut.includes(symbol)) {
-            return <div key={index} className="found-card"></div>;
+            return (
+              <div
+                key={index}
+                className="border-2 border-solid rounded-md w-full aspect-square"
+              ></div>
+            );
           }
           return (
             <Card
-              flipCounter={flipCounter}
+              flippedCards={flippedCards}
               key={index}
               content={symbol}
               isFlipped={flippedCards.includes(index)}
