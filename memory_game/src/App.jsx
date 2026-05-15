@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import Matrix from "./components/Matrix";
 import toast, { Toaster } from "react-hot-toast";
@@ -8,10 +8,12 @@ function App() {
   const [flippedCards, setFlippedCards] = useState([]);
   const [flippedContent, setFlippedContent] = useState([]);
   const [symbolsToLeaveOut, setSymbolsToLeaveOut] = useState([]);
+  const [score, setScore] = useState(0);
 
   const handleReset = () => {
     const [first, second] = flippedContent;
     if (flippedContent.length === 2 && first === second) {
+      setScore((prev) => prev + 1);
       setSymbolsToLeaveOut((prev) => [...prev, first]);
     }
     setFlipCounter(0);
@@ -22,7 +24,22 @@ function App() {
   return (
     <div className="app-container">
       <Toaster />
-      <h1>Memory Game</h1>
+      <h1 style={{ marginBottom: "2px" }}>Memory Game</h1>
+
+      <h2>Score: {score}</h2>
+
+      <div className="msg-container">
+        {flipCounter == 2 && (
+          <>
+            {flippedContent[0] == flippedContent[1] ? (
+              <span>It is a match!</span>
+            ) : (
+              <span>This didn't work!</span>
+            )}
+          </>
+        )}
+      </div>
+
       <Matrix
         flipCounter={flipCounter}
         setFlipCounter={setFlipCounter}
@@ -31,17 +48,22 @@ function App() {
         setFlippedContent={setFlippedContent}
         symbolsToLeaveOut={symbolsToLeaveOut}
       />
+
+      {symbolsToLeaveOut.length > 0 && (
+        <>
+          Symbols found:{" "}
+          <div className="symbol-container">
+            {symbolsToLeaveOut.map((symbol, index) => (
+              <span key={index}>{symbol}</span>
+            ))}
+          </div>
+        </>
+      )}
+
       {flipCounter == 2 && (
-        <div className="msg-container">
-          {flippedContent[0] == flippedContent[1] ? (
-            <span>It is a match!</span>
-          ) : (
-            <span>This didn't work!</span>
-          )}
-          <button onClick={handleReset} className="btn-user">
-            OK
-          </button>
-        </div>
+        <button onClick={handleReset} className="btn-user">
+          OK
+        </button>
       )}
     </div>
   );

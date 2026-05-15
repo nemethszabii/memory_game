@@ -58,9 +58,8 @@ const Matrix = ({
       <div className="matrix-container">
         {matrix.map((symbol, index) => {
           if (symbolsToLeaveOut.includes(symbol)) {
-            return <div key={index} className="hidden-card"></div>;
+            return <div className="found-card"></div>;
           }
-
           return (
             <Card
               flipCounter={flipCounter}

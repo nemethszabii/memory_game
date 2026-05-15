@@ -8,3 +8,14 @@
   border-radius: 10px;
   padding: 5px;
 }
+
+.found-card {
+  border: 2px white solid;
+  border-radius: 5px;
+  width: 25px;
+  height: auto;
+  min-height: 25px;
+  padding: 7px;
+  margin: 5px;
+  color: white;
+}

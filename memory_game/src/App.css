@@ -4,10 +4,26 @@
   align-items: center;
 }
 
+.symbol-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  background-color: rgb(31, 83, 85);
+  margin: 5px 0;
+  height: auto;
+  border-radius: 5px;
+  border: 3px solid black;
+  padding: 5px;
+}
+
 .msg-container {
   display: flex;
   flex-direction: column;
   margin: 5px 0;
+  min-height: 20px;
 }
 
 .btn-user {
