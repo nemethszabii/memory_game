@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Matrix from "./components/Matrix";
 import toast, { Toaster } from "react-hot-toast";
@@ -9,6 +9,26 @@ function App() {
   const [flippedContent, setFlippedContent] = useState([]);
   const [symbolsToLeaveOut, setSymbolsToLeaveOut] = useState([]);
   const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    const handleEnterPress = (event) => {
+      if (flippedContent.length === 2 && event.key == "Enter") {
+        const [first, second] = flippedContent;
+        if (first === second) {
+          setScore((prev) => prev + 1);
+          setSymbolsToLeaveOut((prev) => [...prev, first]);
+        }
+        setFlipCounter(0);
+        setFlippedCards([]);
+        setFlippedContent([]);
+      }
+    };
+    window.addEventListener("keydown", handleEnterPress);
+
+    return () => {
+      window.removeEventListener("keydown", handleEnterPress);
+    };
+  });
 
   const handleReset = () => {
     const [first, second] = flippedContent;
@@ -29,7 +49,7 @@ function App() {
       <h2>Score: {score}</h2>
 
       <div className="msg-container">
-        {flipCounter == 2 && (
+        {flippedContent.length === 2 && (
           <>
             {flippedContent[0] == flippedContent[1] ? (
               <span>It is a match!</span>
@@ -60,11 +80,7 @@ function App() {
         </>
       )}
 
-      {flipCounter == 2 && (
-        <button onClick={handleReset} className="btn-user">
-          OK
-        </button>
-      )}
+      {flippedContent.length === 2 && <span>Press Enter to continue...</span>}
     </div>
   );
 }

@@ -58,7 +58,7 @@ const Matrix = ({
       <div className="matrix-container">
         {matrix.map((symbol, index) => {
           if (symbolsToLeaveOut.includes(symbol)) {
-            return <div className="found-card"></div>;
+            return <div key={index} className="found-card"></div>;
           }
           return (
             <Card
