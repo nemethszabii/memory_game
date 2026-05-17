@@ -16,6 +16,6 @@ A sleek, responsive card-matching memory game built with **React JS** and styled
 
 *   **Frontend Library:** [React JS](https://react.dev/)
 *   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-*   **Build Tool:** Vite / Create React App
+*   **Build Tool:** Vite
 
 ---
